@@ -5,5 +5,5 @@ This repository contains key documents related to data processing and web scrapi
 
 ## Documentation
 
-- **[Hackathon]([./hackathon_data_guide.md](https://github.com/ArturasWill/Geo/blob/main/docs/hackaton.md))**: Covers database setup, data collection, AI integration, and best practices.
-- **[Scraping]([./web_scraping_approach.md](https://github.com/ArturasWill/Geo/blob/main/docs/scraping.md))**: Explains different scraping tools, anti-scraping measures, and data extraction workflows.
+- **[Hackathon Data Guide](https://github.com/ArturasWill/Geo/blob/main/docs/hackaton.md)**: Covers database setup, data collection, AI integration, and best practices.
+- **[Web Scraping Approach](https://github.com/ArturasWill/Geo/blob/main/docs/scraping.md)**: Explains different scraping tools, anti-scraping measures, and data extraction workflows.
