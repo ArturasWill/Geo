@@ -98,8 +98,8 @@ Many public data sources (e.g., Wikidata) offer APIs for more reliable and struc
 - Build a review process for human verification of AI suggestions.
 
 ### 4.3.5 Techniques to Consider
-- **Structured Output**
-- **Retrieval-Augmented Generation**
+- [**Structured Output**](https://platform.openai.com/docs/guides/structured-outputs)
+- [**Retrieval-Augmented Generation**](https://en.wikipedia.org/wiki/Retrieval-augmented_generation)
 
 # 5. Additional Notes & Considerations
 - Consider integrating or developing a UI with filtering, batch editing, natural language search (via LLM) for non-technical users.
