@@ -1,141 +1,124 @@
-# Table of Contents
-- [1. Overview](#1-overview)
-- [2. Tools Used](#2-tools-used)
-  - [2.1 Octoparse](#21-octoparse)
-  - [2.2 AgentQL](#22-agentql)
-  - [2.3 Scrapy](#23-scrapy)
-  - [2.4 BeautifulSoup](#24-beautifulsoup)
-- [3. Comparison of Scrapy and BeautifulSoup](#3-comparison-of-scrapy-and-beautifulsoup)
-- [4. Handling Anti-Scraping Measures](#4-handling-anti-scraping-measures)
-- [5. Workflow](#5-workflow)
-- [6. End Data Format](#6-end-data-format)
-- [7. Main Challenges](#7-main-challenges)
-- [8. Conclusion](#8-conclusion)
+# Web scraping approach
 
-# 1. Overview
-Our web scraping methodology is designed to efficiently extract structured data from various online sources. By using different tools based on the complexity and scale of the scraping task, we ensure flexibility, automation, and reliability in data collection. The primary goal is to retrieve relevant information while minimizing manual intervention and optimizing scalability.
+## Overview
+This is how we've approached web scraping so far, using Python libraries (BeautifulSoup, Scrapy, Selenium, Playwright) or external services (AgentQL, Octoparse). Each tool is suited for different scales and complexities. We encourage participants to take this document for inspiration, experiment with their own methods, and share ideas on which parts could be improved.
 
-# 2. Tools Used
-## 2.1 Octoparse
-**Purpose:** Automating news article scraping with direct export to PostgreSQL.
+---
 
-**Key Features:**
-- Cloud-based execution for continuous scraping.
-- Visual interface for building scrapers without extensive coding.
-- Auto-export to databases (PostgreSQL, MySQL).
+## Approach with Python libraries
 
-**Limitations:**
-- Limited number of scrapers running simultaneously.
-- Subscription-based model with costs for advanced features.
-- Less efficient for highly dynamic websites.
+### BeautifulSoup
+- **Purpose:** Simple HTML parsing for smaller or well-structured sites.  
+- **Key features:** Easy to learn, minimal setup required.  
+- **Limitations:** Slower for large-scale tasks, no built-in async, manual updates for site changes.  
 
-**Data Output:** CSV format, processed and imported into PostgreSQL.
+### Scrapy
+- **Purpose:** Large-scale scraping with high-speed async requests.  
+- **Key features:** Proxy and middleware support, handles complex tasks well.  
+- **Limitations:** Requires coding and configuration, steeper learning curve.  
 
-## 2.2 AgentQL
-**Purpose:** AI-powered scraper for extracting data from predefined URLs without manually specifying elements.
+### Selenium
+- **Purpose:** Automates a real browser to handle JavaScript-heavy pages.  
+- **Key features:** Can click buttons, fill forms, simulate real user actions.  
+- **Limitations:** Slower than pure HTTP-based scrapers, needs browser drivers.  
 
-**Key Features:**
-- Allows querying in natural language to retrieve structured data.
-- Supports both inspect mode for direct scraping and API-based automation.
-- Ideal for handling websites where traditional scrapers struggle due to complex structures.
+### Playwright
+- **Purpose:** Modern browser automation, faster alternative to Selenium.  
+- **Key features:** Headless mode, multiple browser contexts, good for JS-heavy sites.  
+- **Limitations:** Still heavier than direct HTTP libraries, needs more setup.  
 
-**Limitations:**
-- The free version has API rate limits.
-- Additional validation needed to ensure data accuracy.
+---
 
-**Data Output:** JSON format.
+## Comparison: BeautifulSoup vs Scrapy
 
-## 2.3 Scrapy
-**Purpose:** High-performance Python framework for large-scale and complex web scraping tasks.
+| Feature          | BeautifulSoup          | Scrapy                   |
+|-----------------|------------------------|---------------------------|
+| Scale           | Small to medium        | Large-scale, complex     |
+| Speed           | Sequential (slower)    | Asynchronous (faster)    |
+| Ease of use     | Easy setup, fewer deps | More coding and config   |
+| Anti-scraping   | Limited (manual setup) | Built-in proxy/middleware |
+| Output options  | CSV, JSON              | CSV, JSON, DB integration |
 
-**Key Features:**
-- Designed for scalable, high-speed scraping.
-- Supports asynchronous requests for faster data retrieval.
-- Middleware support for handling captchas and user-agent rotation.
-- Supports proxy integration for IP rotation.
+---
 
-**Limitations:**
-- Requires coding expertise and manual configuration.
-- More complex to set up than Octoparse or AgentQL.
+## Comparison: Selenium vs Playwright
 
-**Data Output:** JSON format, with options for CSV and direct database storage.
+| Feature         | Selenium                              | Playwright                                |
+|---------------|--------------------------------------|------------------------------------------|
+| Browser control | Requires drivers (Chrome, Firefox, etc.) | Built-in drivers, multiple browser contexts |
+| Speed          | Slower for heavy tasks              | Generally faster                          |
+| JS handling    | Full real-browser automation       | Same, with improved performance           |
+| Ease of setup  | Well-known, large community        | Newer but simpler parallel usage          |
+| Use case       | Form fills, dynamic sites         | Similar, but can handle concurrency better |
 
-## 2.4 BeautifulSoup
-**Purpose:** Lightweight Python library for structured HTML parsing.
+---
 
-**Key Features:**
-- Provides detailed control over HTML parsing.
-- Good for smaller-scale, well-structured website scraping.
-- Simpler to use than Scrapy for quick data extraction.
+## Approach with AgentQL and Octoparse
 
-**Limitations:**
-- Slower than Scrapy for large-scale scraping.
-- Requires manual adjustments when websites change structure.
-- No built-in proxy support; requires external integration.
+### AgentQL
+- **Purpose:** AI-powered scraper using natural-language queries.  
+- **Key features:** Minimal manual element selection, flexible API.  
+- **Limitations:** Free plan rate-limited, requires data validation (due to potential AI hallucinations).  
 
-**Data Output:** JSON format.
+### Octoparse
+- **Purpose:** Visual scraper for smaller tasks with easy database export.  
+- **Key features:** Cloud-based, direct CSV output, no heavy coding needed.  
+- **Limitations:** Subscription-based, limited concurrent runs, not ideal for highly dynamic sites.  
 
-# 3. Comparison of Scrapy and BeautifulSoup
-| Feature        | Scrapy | BeautifulSoup |
-|---------------|--------|--------------|
-| Scale         | Large-scale, complex tasks | Small to medium tasks |
-| Speed        | Fast (asynchronous requests) | Slower (sequential parsing) |
-| Ease of Use   | Requires more setup | Simpler, less setup needed |
-| Anti-Scraping Handling | Supports proxies, middlewares, user-agent rotation | Basic handling only |
-| Data Output   | JSON, CSV, Database | JSON, CSV |
+---
 
-# 4. Handling Anti-Scraping Measures
-Some websites implement various anti-scraping measures to prevent automated data extraction. To counter these challenges, we use the following techniques:
+## Handling anti-scraping
 
-- **User-Agent Rotation:** Changing the user-agent header to mimic different browsers and devices.
-- **Delays & Randomized Requests:** Introducing random delays between requests to avoid detection.
-- **Headless Browsing:** Using tools like Selenium (if necessary) to simulate human-like interactions.
-- **IP Rotation & Proxy Usage:**
-  - **Why?** Some websites block frequent requests from the same IP address.
-  - **How?** By integrating proxy services or using rotating IPs, we can reduce blocking risks.
+- User-agent rotation  
+- Delays & randomization  
+- Browser automation (Selenium/Playwright)  
+- Proxies & IP rotation  
+- Captcha solving  
 
-### Usage in Our Workflow:
-- **Scrapy:** Built-in middleware for proxies and IP rotation.
-- **BeautifulSoup and AgentQL:** Require external proxy services for effective rotation.
-- **Octoparse:** Limited proxy integration, relies on third-party solutions.
+---
 
-# 5. Workflow
-1. **Identifying Data Sources:** Select relevant websites based on project needs.
-2. **Choosing the Right Tool:**
-   - For automation and ease → Octoparse.
-   - For scraping from a list of URLs → AgentQL.
-   - For large-scale, complex scraping → Scrapy.
-   - For small-scale, structured parsing → BeautifulSoup.
-3. **Building the Scraper:** Configure the selected tool to extract required data fields.
-4. **Running the Scraper:** Execute the scraper and monitor for errors.
-5. **Handling Anti-Scraping Measures:** Apply techniques like user-agent rotation, delays, and proxies.
-6. **Data Processing & Cleaning:** Structure and validate extracted data.
-7. **Data Storage & Integration:** Export to PostgreSQL or process further using AI tools.
-8. **Quality Assurance:** Verify data accuracy and completeness.
+## Scraping workflow
 
-# 6. End Data Format
-- **Octoparse:** CSV format, processed before PostgreSQL import.
-- **AgentQL, Scrapy & BeautifulSoup:** JSON format, structured for further AI-based processing or direct integration.
-- **Scrapy:** Additionally supports direct database storage.
+1. Select websites  
+2. Choose tool (library or external service)  
+3. Configure scraper (set parsing rules or workflows)  
+4. Run & monitor (check for site changes or errors)  
+5. Handle anti-scraping (user-agents, proxies)  
+6. Clean & validate (ensure structured, correct data)  
+7. Store/export data (CSV, JSON, DB)  
 
-**Example JSON output for AgentQL, Scrapy, and BeautifulSoup:**
+---
+
+## Output formats
+
+- **CSV:** Octoparse by default, or any Python library  
+- **JSON:** AgentQL, Scrapy, BeautifulSoup, Selenium, Playwright  
+- **Database:** Octoparse supports auto-export, Scrapy can be configured, etc.  
+
+**Example of news article in JSON:**
 ```json
 {
-  "title": "Sample News Title",
-  "author": "John Doe",
+  "title": "Sample Title",
+  "author": "Jane Doe",
   "date": "2025-02-04",
-  "article_url": "https://example.com/article",
-  "body_text": "Full article content...",
-  "tags": ["Education", "Technology"]
+  "url": "https://example.com/article",
+  "content": "Article text...",
+  "tags": ["Tech", "AI"]
 }
 ```
+---
 
-# 7. Main Challenges
-- **Handling Dynamic Websites:** JavaScript-based content loading makes traditional scrapers ineffective.
-- **Anti-Scraping Measures:** Captchas, rate limits, and bot detection mechanisms.
-- **Scalability:** Octoparse has scraper limits; Scrapy requires optimized middleware for large-scale execution.
-- **Data Accuracy & Consistency:** Ensuring structured, error-free data extraction through validation.
-- **Website Structure Changes:** Adjusting scrapers when websites update their layout.
+## Main challenges
 
-# 8. Conclusion
-Our approach balances automation, flexibility, and scalability by combining Octoparse, AgentQL, Scrapy, and BeautifulSoup. By selecting the right tool for the task, we maximize efficiency while minimizing development time. We also employ anti-scraping techniques, such as proxy usage and IP rotation, to improve reliability. This ensures a streamlined workflow and reliable data extraction.
+- **Handling dynamic websites:** Some sites use heavy JavaScript, making standard HTTP-based scrapers less effective. Tools like Selenium (or Playwright) can help but are slower.  
+- **Anti-scraping measures:** Captchas, rate limits, and bot detection can block or slow scraping.  
+- **Scalability:** Tool limits and middleware optimizations can affect concurrency.  
+- **Data accuracy & consistency:** Ongoing validation keeps data structured and error-free.  
+- **Website structure changes:** Layout updates may break scrapers, requiring frequent maintenance.  
+
+---
+
+## Conclusion
+
+By combining different tools (e.g., Octoparse, AgentQL, Scrapy, BeautifulSoup, Selenium) and using proxy/IP rotation, you can balance automation, flexibility, and scalability. Choosing the right tool for each task helps streamline data extraction while reducing effort.
+
