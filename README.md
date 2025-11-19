@@ -4,4 +4,4 @@ Welcome to the hackathon document repository. Here you’ll find an overview and
 ## Documentation
 
 - **[Hackathon](https://github.com/ArturasWill/Geo/blob/main/docs/hackaton.md)**: Provides a high-level overview of database setup, data collection, AI integration, and best practices.
-- **[Scraping](https://github.com/ArturasWill/Geo/blob/main/docs/scraping.md)**: Explains different scraping tools, challenges, and data extraction workflows.
+- **[Scraping](https://github.com/ArturasWill/Geo/tree/main/docs/scraping)**: Explains different scraping tools, challenges, and data extraction workflows.
