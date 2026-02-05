@@ -1,4 +1,4 @@
-# Web scraping approach
+# Web scraping
 
 ## Overview
 This is how we've approached web scraping so far, using Python libraries (BeautifulSoup, Scrapy, Selenium, Playwright) or external services (AgentQL, Octoparse). Each tool is suited for different scales and complexities. We encourage participants to take this document for inspiration, experiment with their own methods, and share ideas on which parts could be improved.
