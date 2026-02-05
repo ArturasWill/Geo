@@ -6,7 +6,7 @@ Practical guides for extracting public data from websites using libraries, exter
 
 ## 📚 Documentation
 
-### [Web Scraping Approach](./web-scraping.md)
+### [Web Scraping](./web-scraping.md)
 Overview of web scraping tools and methods: BeautifulSoup, Scrapy, Selenium, Playwright, AgentQL, and Octoparse. Includes comparisons, workflows, anti-scraping strategies, and output formats.
 
 ### [Using Internal Web APIs](./internal-api.md)
